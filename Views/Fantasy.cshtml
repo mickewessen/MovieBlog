@@ -1,0 +1,36 @@
+﻿@using Umbraco.Cms.Web.Common.PublishedModels;
+@inherits Umbraco.Cms.Web.Common.Views.UmbracoViewPage<ContentModels.Fantasy>
+@using ContentModels = Umbraco.Cms.Web.Common.PublishedModels;
+@{
+	Layout = "Master.cshtml";
+}
+
+
+@{
+	var fantasySelection = Umbraco.Content(Guid.Parse("1b09b37f-98da-40d1-a11f-b5e8326df543"))
+    .ChildrenOfType("fantasyArticle")
+    .Where(x => x.IsVisible())
+    .OrderBy(x => x.Name);
+}
+<div class="grid-container">
+	@foreach (var item in fantasySelection)
+	{
+		<div class="grid-item">
+			<div class="teaser-image">
+				@{
+				var image = item.Value<IPublishedContent>("teaserImage");
+				}
+				<a href="@item.Url()">
+        			<img width="auto" height="300" src="@image.Url()"/>
+				</a>
+			</div>
+			<div class="teaser-details">
+				<div>@item.Value("teaserTitle")</div>
+				<div>@item.Value("movieYear")</div>
+				<div>@item.Value("movieLenght") min</div>
+				<div>@item.Value("movieGenre")</div>
+			</div>
+		</div>
+	}
+</div>
+

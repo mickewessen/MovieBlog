@@ -1,0 +1,42 @@
+﻿@using Umbraco.Cms.Web.Common.PublishedModels;
+@inherits Umbraco.Cms.Web.Common.Views.UmbracoViewPage<ContentModels.Home>
+@using ContentModels = Umbraco.Cms.Web.Common.PublishedModels;
+@{
+	Layout = "Master.cshtml";
+}
+<link href="/css/style.css" rel="stylesheet">
+@{
+    var latestArticles = Umbraco.Content(Guid.Parse("f383fc44-c361-4106-a0a1-10b1406bdef6"))
+    .Descendants()
+    .Where(x => x.IsVisible() && (x.IsDocumentType("ActionArticle") ||
+        x.IsDocumentType("ComedyArticle") ||
+        x.IsDocumentType("FantasyArticle") ||
+        x.IsDocumentType("HorrorArticle")))
+    .OrderByDescending(x => x.CreateDate).Take(20);
+}
+
+<h2>Latest Movies</h2>
+<div class="grid-container">
+    
+	@foreach (var item in latestArticles)
+	{
+		<div class="grid-item">
+			<div class="teaser-image">
+				@{
+				var image = item.Value<IPublishedContent>("teaserImage");
+				}
+				<a href="@item.Url()">
+        			<img width="auto" height="300" src="@image.Url()"/>
+				</a>
+			</div>
+			<div class="teaser-details">
+				<div>@item.Value("teaserTitle")</div>
+				<div>@item.Value("movieYear")</div>
+				<div>@item.Value("movieLenght") min</div>
+				<div>@item.Value("movieGenre")</div>
+			</div>
+		</div>
+	}
+</div>
+
+

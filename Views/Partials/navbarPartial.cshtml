@@ -1,0 +1,50 @@
+﻿@inherits Umbraco.Cms.Web.Common.Views.UmbracoViewPage
+
+
+<nav class="navbar navbar-expand-lg navbar-light container">
+  <a class="navbar-brand" href="@Umbraco.Content("1058").Url()">Movie Blog</a>
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+  <div class="collapse navbar-collapse d-flex justify-content-between align-items-center" id="navbarNavDropdown" >
+        <div>
+            <ul class="navbar-nav">
+              <li class="nav-item active">
+                <a class="nav-link" href="@Umbraco.Content("1058").Url()">Home <span class="sr-only">(current)</span></a>
+              </li>
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Movies</a>
+                    <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+                        @{
+                        	var selection = Umbraco.Content(Guid.Parse("f383fc44-c361-4106-a0a1-10b1406bdef6"))
+                            .Children()
+                            .Where(x => x.IsVisible())
+                            .OrderBy(x => x.Name);
+                        }
+                        
+                    	@foreach (var item in selection)
+                    	{
+                            <a class="dropdown-item" href="@item.Url()">@item.Name()</a>
+                    	}
+                    </div>
+                </li>
+              <li class="nav-item">
+                <a class="nav-link" href="@Umbraco.Content("1111").Url()">Contact Us</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="@Umbraco.Content("1112").Url()">About Us</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="@Umbraco.Content("3096").Url()">Members Area</a>
+              </li>
+            </ul>
+        </div>
+    
+    <div>
+        <span class="navbar-text actions">
+            @Html.Partial("loginStatusPartial")
+        </span> 
+    </div>
+  </div>
+</nav>
+

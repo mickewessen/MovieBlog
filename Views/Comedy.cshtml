@@ -1,0 +1,37 @@
+﻿@using Umbraco.Cms.Web.Common.PublishedModels;
+@inherits Umbraco.Cms.Web.Common.Views.UmbracoViewPage<ContentModels.Comedy>
+@using ContentModels = Umbraco.Cms.Web.Common.PublishedModels;
+@{
+	Layout = "Master.cshtml";
+}
+
+
+@{
+	var comedySelection = Umbraco.Content(Guid.Parse("32ef70bf-c762-493e-9305-d8d86083bc31"))
+    .ChildrenOfType("comedyArticle")
+    .Where(x => x.IsVisible())
+    .OrderBy(x => x.Name);
+}
+
+<div class="grid-container">
+	@foreach (var item in comedySelection)
+	{
+		<div class="grid-item">
+			<div class="teaser-image">
+				@{
+				var image = item.Value<IPublishedContent>("teaserImage");
+				}
+				<a href="@item.Url()">
+        			<img width="auto" height="300" src="@image.Url()"/>
+				</a>
+			</div>
+			<div class="teaser-details">
+				<div>@item.Value("teaserTitle")</div>
+				<div>@item.Value("movieYear")</div>
+				<div>@item.Value("movieLenght") min</div>
+				<div>@item.Value("movieGenre")</div>
+			</div>
+		</div>
+	}
+</div>
+

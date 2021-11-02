@@ -1,0 +1,21 @@
+﻿@using Umbraco.Cms.Web.Common.PublishedModels;
+@inherits Umbraco.Cms.Web.Common.Views.UmbracoViewPage<ContentModels.HorrorArticle>
+@using ContentModels = Umbraco.Cms.Web.Common.PublishedModels;
+@{
+	Layout = "Master.cshtml";
+}
+
+<div>
+    <h1>@Model.Value("teaserTitle")</h1>
+</div>
+
+<div>
+    @{
+        var image = Model.Value<IPublishedContent>("teaserImage");
+     }
+	 <img width="auto" height="300" src="@image.Url()"/>
+</div>
+
+<div>
+    <h3>@Model.Value("horrorContent")</h3>
+</div>
